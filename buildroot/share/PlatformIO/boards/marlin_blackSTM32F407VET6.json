@@ -11,7 +11,7 @@
       ],
       [
         "0x0483",
-        "0x3748"
+        "0xdf11"
       ]
     ],
     "mcu": "stm32f407vet6",
@@ -20,25 +20,7 @@
   "debug": {
     "jlink_device": "STM32F407VE",
     "openocd_target": "stm32f4x",
-    "svd_path": "STM32F40x.svd",
-    "tools": {
-      "stlink": {
-        "server": {
-          "arguments": [
-            "-f",
-            "scripts/interface/stlink.cfg",
-            "-c",
-            "transport select hla_swd",
-            "-f",
-            "scripts/target/stm32f4x.cfg",
-            "-c",
-            "reset_config none"
-          ],
-          "executable": "bin/openocd",
-          "package": "tool-openocd"
-        }
-      }
-    }
+    "svd_path": "STM32F40x.svd"
   },
   "frameworks": [
     "arduino",
@@ -51,8 +33,8 @@
     "maximum_size": 524288,
     "protocol": "stlink",
     "protocols": [
-      "stlink",
       "dfu",
+      "stlink",
       "jlink"
     ],
     "require_upload_port": true,
