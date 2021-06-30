@@ -14,9 +14,13 @@ RS485Bus rs485Bus(
 RS485Bus::RS485Bus(uint16_t rxPin, uint16_t rxEnablePin, uint16_t txPin, uint16_t txEnablePin)
   : serial(rxPin, txPin), rx_enable_pin(rxEnablePin), tx_enable_pin(txEnablePin) {
     //WRITE(RS485_RX_ENABLE_PIN, HIGH);
+    WRITE(rx_enable_pin, HIGH);
+    WRITE(tx_enable_pin, LOW);
 }
 
 void RS485Bus::init() {
+  _SET_OUTPUT(rx_enable_pin);
+  _SET_OUTPUT(tx_enable_pin);
   serial.begin(9600);
   reset();
 }
@@ -24,6 +28,9 @@ void RS485Bus::init() {
 void RS485Bus::reset() {
   buffer_s = 0;
   buffer[0] = 0;
+
+  WRITE(rx_enable_pin, LOW);
+  WRITE(tx_enable_pin, LOW);
 }
 
 int RS485Bus::push(unsigned char byte) {
@@ -37,24 +44,39 @@ int RS485Bus::push(unsigned char byte) {
 }
 
 int RS485Bus::send() {
-  WRITE(RS485_TX_ENABLE_PIN, HIGH);
-  for(uint8_t i=0; i<buffer_s; i++) {
-    serial.write(buffer[i]);
-  }
-  WRITE(RS485_TX_ENABLE_PIN, LOW);
+  WRITE(tx_enable_pin, HIGH);
+  WRITE(rx_enable_pin, HIGH);
+  delay(5);
+
+  size_t ret = serial.write(buffer, buffer_s);
+  serial.flush();
+  delay(5);
+
+  WRITE(tx_enable_pin, LOW);
+  WRITE(rx_enable_pin, LOW);
+  delay(5);
   
-  return 0;
+  return ret;
 }
 
 int RS485Bus::receive() {
-  if(! serial.available()) {
-    return -1;
-  }
+  unsigned char data;
+  //if(! serial.available()) {
+  //  return -1;
+  //}
+
+  //SERIAL_ERROR_MSG("Received ", serial.available(), " bytes");
 
   SERIAL_ECHOLNPGM("Received:");
-  while(serial.available()) {
-    SERIAL_ECHOLN(serial.read());
+  while(serial.readBytes(&data, 1) > 0) {
+    SERIAL_ECHO((data < 0x10) ? " 0x0" : " 0x");
+
+    SERIAL_PRINT(data, PrintBase::Hex);
   }
+  SERIAL_ECHOLN("");
+  //while(serial.available()) {
+  //  SERIAL_PRINT(serial.read(), PrintBase::Hex);
+  //}
   return 0;
 }
 

@@ -41,6 +41,8 @@ void GcodeSuite::M271() {
 
   rs485Bus.send();
 
+  //delay(timeout);
+
   int result = rs485Bus.receive();
   if(result == -1) {
     SERIAL_ECHOLNPGM("Didn't receieve anything");
