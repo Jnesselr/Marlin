@@ -32,175 +32,125 @@
 #define BOARD_INFO_NAME      "Opulo Lumen REV3"
 #define DEFAULT_MACHINE_NAME "Opulo Pick-and-Place"
 
-/**
- * By default, the extra stepper motor configuration is:
- * I = Left Head
- * J = Right Head
- * K = Auxiliary (Conveyor belt)
- */
-
+//#define I2C_EEPROM
 #define SRAM_EEPROM_EMULATION
-#define MARLIN_EEPROM_SIZE                0x2000  // 8K
-
-// I2C MCP3426 (16-Bit, 240SPS, dual-channel ADC)
-#define HAS_MCP3426_ADC
+#define MARLIN_EEPROM_SIZE                0x2000  // 8KB
 
 //
 // Servos
 //
-#define SERVO0_PIN                          PB10
-#define SERVO1_PIN                          PB11
+#define SERVO0_PIN                          PC6
+#define SERVO1_PIN                          PC7
 
 //
 // Limit Switches
 //
-#define X_STOP_PIN                          PC6
-#define Y_STOP_PIN                          PD15
-#define Z_STOP_PIN                          PD14
-
-// None of these require limit switches by default, so we leave these commented
-// here for your reference.
-//#define I_MIN_PIN                         PA8
-//#define I_MAX_PIN                         PA8
-//#define J_MIN_PIN                         PD13
-//#define J_MAX_PIN                         PD13
-//#define K_MIN_PIN                         PC9
-//#define K_MAX_PIN                         PC9
+#define X_MIN_PIN                           PC13
+#define X_MAX_PIN                           PA15
+#define Y_MIN_PIN                           PA5
+#define Y_MAX_PIN                           PD12
+#define Z_MIN_PIN                           PD14
+#define Z_MAX_PIN                           PD15
 
 //
 // Steppers
 //
-#define X_STEP_PIN                          PB15
-#define X_DIR_PIN                           PB14
-#define X_ENABLE_PIN                        PD9
+#define X_STEP_PIN                          PC4
+#define X_DIR_PIN                           PA4
+#define X_ENABLE_PIN                        PE7
 
-#define Y_STEP_PIN                          PE15
-#define Y_DIR_PIN                           PE14
-#define Y_ENABLE_PIN                        PB13
+#define Y_STEP_PIN                          PE5
+#define Y_DIR_PIN                           PE2
+#define Y_ENABLE_PIN                        PE6
 
-#define Z_STEP_PIN                          PE7
-#define Z_DIR_PIN                           PB1
-#define Z_ENABLE_PIN                        PE9
+#define Z_STEP_PIN                          PD5
+#define Z_DIR_PIN                           PD3
+#define Z_ENABLE_PIN                        PD6
 
-#define I_STEP_PIN                          PC4
-#define I_DIR_PIN                           PA4
-#define I_ENABLE_PIN                        PB0
+#define E0_STEP_PIN                         PD7
+#define E0_DIR_PIN                          PD0
+#define E0_ENABLE_PIN                       PB9
 
-#define J_STEP_PIN                          PE11
-#define J_DIR_PIN                           PE10
-#define J_ENABLE_PIN                        PE13
+#define E1_STEP_PIN                         PE0
+#define E1_DIR_PIN                          PE1
+#define E1_ENABLE_PIN                       PB8
 
-#define K_STEP_PIN                          PD6
-#define K_DIR_PIN                           PD7
-#define K_ENABLE_PIN                        PA3
+//
+// Temperature Sensors
+//
+#define TEMP_0_PIN                          PC0   // T0
+#define TEMP_1_PIN                          PC1   // T1
+#define TEMP_BED_PIN                        PC2   // TB
 
-#if HAS_TMC_SPI
-  /**
-   * Make sure to configure the jumpers on the back side of the Mobo according to
-   * this diagram: https://github.com/MarlinFirmware/Marlin/pull/23851
-   */
-  #error "SPI drivers require a custom jumper configuration, see comment above! Comment out this line to continue."
-
-  #if AXIS_HAS_SPI(X)
-    #define X_CS_PIN                        PD8
-  #endif
-  #if AXIS_HAS_SPI(Y)
-    #define Y_CS_PIN                        PB12
-  #endif
-  #if AXIS_HAS_SPI(Z)
-    #define Z_CS_PIN                        PE8
-  #endif
-  #if AXIS_HAS_SPI(I)
-    #define I_CS_PIN                        PC5
-  #endif
-  #if AXIS_HAS_SPI(J)
-    #define J_CS_PIN                        PE12
-  #endif
-  #if AXIS_HAS_SPI(K)
-    #define K_CS_PIN                        PA2
-  #endif
-
-#elif HAS_TMC_UART
-
-  #define X_SERIAL_TX_PIN                   PD8
-  #define X_SERIAL_RX_PIN        X_SERIAL_TX_PIN
-
-  #define Y_SERIAL_TX_PIN                   PB12
-  #define Y_SERIAL_RX_PIN        Y_SERIAL_TX_PIN
-
-  #define Z_SERIAL_TX_PIN                   PE8
-  #define Z_SERIAL_RX_PIN        Z_SERIAL_TX_PIN
-
-  #define I_SERIAL_TX_PIN                   PC5
-  #define I_SERIAL_RX_PIN        I_SERIAL_TX_PIN
-
-  #define J_SERIAL_TX_PIN                   PE12
-  #define J_SERIAL_RX_PIN        J_SERIAL_TX_PIN
-
-  #define K_SERIAL_TX_PIN                   PA2
-  #define K_SERIAL_RX_PIN        K_SERIAL_TX_PIN
-
-  // Reduce baud rate to improve software serial reliability
-  #define TMC_BAUD_RATE                    19200
-
+#ifndef TEMP_CHAMBER_PIN
+  #define TEMP_CHAMBER_PIN                  PC3   // TC
 #endif
 
 //
 // Heaters / Fans
 //
-#define FAN_PIN                             PE2
-#define FAN1_PIN                            PE3
-#define FAN2_PIN                            PE4
-#define FAN3_PIN                            PE5
+#define HEATER_0_PIN                        PA2   // Heater0
+#define HEATER_1_PIN                        PA3   // Heater1
+#define HEATER_BED_PIN                      PA1   // Hotbed
 
-#define FAN_SOFT_PWM_REQUIRED
-
-//
-// Neopixel
-//
-#define NEOPIXEL_PIN                        PC7
-#define NEOPIXEL2_PIN                       PC8
+#define FAN_PIN                             PE9   // Fan0
+#define FAN1_PIN                            PE11  // Fan1
+#define FAN2_PIN                            PE13  // Fan2
+#define FAN3_PIN                            PE14  // Fan3
 
 //
-// SPI
+// Misc. Functions
 //
-#define MISO_PIN                            PB4
-#define MOSI_PIN                            PB5
-#define SCK_PIN                             PB3
-
-#define TMC_SW_MISO                     MISO_PIN
-#define TMC_SW_MOSI                     MOSI_PIN
-#define TMC_SW_SCK                       SCK_PIN
+#define LED_PIN                             PA6
+//#define LED_PIN                           PA7
+#define KILL_PIN                            PB1
 
 //
-// I2C
+// LCD / Controller
 //
-#define I2C_SDA_PIN                         PB7
-#define I2C_SCL_PIN                         PB6
+//#define SD_DETECT_PIN                     PC5
+//#define SD_DETECT_PIN                     PA8   // SDIO SD_DETECT_PIN, external SDIO card reader only
 
-/**
- * The index mobo rev03 has 3 aux ports. We define them here so they may be used
- * in other places and to make sure someone doesn't have to go look up the pinout
- * in the board files. Each 12 pin aux port has this pinout:
- *
- * VDC    1   2    GND
- * 3.3V   3   4    SCL  (I2C_SCL_PIN)
- * PWM1   5   6    SDA  (I2C_SDA_PIN)
- * PWM2   7   8    CIPO (MISO_PIN)
- * A1     9  10    COPI (MOSI_PIN)
- * A2     11 12    SCK  (SCK_PIN)
- */
-#define INDEX_AUX1_PWM1                     PA15
-#define INDEX_AUX1_PWM2                     PA5
-#define INDEX_AUX1_A1                       PC0
-#define INDEX_AUX1_A2                       PC1
+#define BEEPER_PIN                          PD10
+#define LCD_PINS_RS                         PE15
+#define LCD_PINS_ENABLE                     PD8
+#define LCD_PINS_D4                         PE10
+#define LCD_PINS_D5                         PE12
+#define LCD_PINS_D6                         PD1
+#define LCD_PINS_D7                         PE8
+#define BTN_ENC                             PD9
+#define BTN_EN1                             PD4
+#define BTN_EN2                             PD13
 
-#define INDEX_AUX2_PWM1                     PA6
-#define INDEX_AUX2_PWM2                     PA7
-#define INDEX_AUX2_A1                       PC2
-#define INDEX_AUX2_A2                       PC3
+#define DOGLCD_CS                    LCD_PINS_D5
+#define DOGLCD_A0                    LCD_PINS_D6
 
-#define INDEX_AUX3_PWM1                     PB8
-#define INDEX_AUX3_PWM2                     PB9
-#define INDEX_AUX3_A1                       PA0
-#define INDEX_AUX3_A2                       PA1
+#if ENABLED(REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER)
+  #define BTN_ENC_EN                 LCD_PINS_D7  // Detect the presence of the encoder
+#endif
+
+//
+// Onboard SD support
+//
+#define SDIO_D0_PIN                         PC8
+#define SDIO_D1_PIN                         PC9
+#define SDIO_D2_PIN                         PC10
+#define SDIO_D3_PIN                         PC11
+#define SDIO_CK_PIN                         PC12
+#define SDIO_CMD_PIN                        PD2
+
+#ifndef SDCARD_CONNECTION
+  #define SDCARD_CONNECTION              ONBOARD
+#endif
+
+#if SD_CONNECTION_IS(ONBOARD)
+  #define SDIO_SUPPORT                            // Use SDIO for onboard SD
+
+  #ifndef SDIO_SUPPORT
+    #define SOFTWARE_SPI                          // Use soft SPI for onboard SD
+    #define SDSS                     SDIO_D3_PIN
+    #define SD_SCK_PIN               SDIO_CK_PIN
+    #define SD_MISO_PIN              SDIO_D0_PIN
+    #define SD_MOSI_PIN             SDIO_CMD_PIN
+  #endif
+#endif

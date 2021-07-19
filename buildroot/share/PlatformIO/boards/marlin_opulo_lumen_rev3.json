@@ -6,16 +6,16 @@
     "f_cpu": "168000000L",
     "hwids": [
       [
-        "0x0483",
-        "0xdf11"
-      ],
-      [
         "0x1EAF",
         "0x0003"
       ],
       [
         "0x0483",
         "0x3748"
+      ],
+      [
+        "0x0483",
+        "0xdf11"
       ]
     ],
     "mcu": "stm32f407vet6",
@@ -35,12 +35,11 @@
     "disable_flushing": false,
     "maximum_ram_size": 131072,
     "maximum_size": 524288,
-    "protocol": "dfu",
+    "protocol": "stlink",
     "protocols": [
       "stlink",
       "dfu",
-      "jlink",
-      "blackmagic"
+      "jlink"
     ],
     "require_upload_port": true,
     "use_1200bps_touch": false,
