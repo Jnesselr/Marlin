@@ -39,7 +39,7 @@ int RS485Bus::push(unsigned char byte) {
   }
   buffer[buffer_s] = byte;
   buffer_s++;
-  
+
   return buffer_s;
 }
 
@@ -55,7 +55,7 @@ int RS485Bus::send() {
   WRITE(tx_enable_pin, LOW);
   WRITE(rx_enable_pin, LOW);
   delay(5);
-  
+
   return ret;
 }
 
