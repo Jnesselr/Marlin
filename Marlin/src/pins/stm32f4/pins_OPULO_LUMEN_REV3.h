@@ -132,6 +132,16 @@ By default, the extra stepper motor configuration is:
 #define I2C_SDA_PIN                         PB7
 #define I2C_SCL_PIN                         PB6
 
+//
+// RS485 support
+//
+#define RS485_ENABLE
+#define RS485_RX_PIN                PD13
+#define RS485_RX_ENABLE_PIN         PD12
+#define RS485_TX_PIN                PD10
+#define RS485_TX_ENABLE_PIN         PD11
+#define RS485_VERIFY_READ_BACK
+
 /*
 The index mobo rev03 has 3 aux ports. We define them here so they may be used
 in other places and to make sure someone doesn't have to go look up the pinout
