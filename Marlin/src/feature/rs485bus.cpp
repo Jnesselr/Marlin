@@ -13,14 +13,12 @@ RS485Bus rs485Bus(
 
 RS485Bus::RS485Bus(uint16_t rxPin, uint16_t rxEnablePin, uint16_t txPin, uint16_t txEnablePin)
   : serial(rxPin, txPin), rx_enable_pin(rxEnablePin), tx_enable_pin(txEnablePin) {
-    //WRITE(RS485_RX_ENABLE_PIN, HIGH);
-    WRITE(rx_enable_pin, HIGH);
-    WRITE(tx_enable_pin, LOW);
 }
 
 void RS485Bus::init() {
   _SET_OUTPUT(rx_enable_pin);
   _SET_OUTPUT(tx_enable_pin);
+
   serial.begin(9600);
   reset();
 }
@@ -65,7 +63,10 @@ int RS485Bus::receive() {
   //  return -1;
   //}
 
-  //SERIAL_ERROR_MSG("Received ", serial.available(), " bytes");
+  SERIAL_ECHO("Received ");
+  SERIAL_ECHO(serial.available());
+  SERIAL_ECHO(" bytes");
+  SERIAL_ECHOLN("");
 
   SERIAL_ECHOLNPGM("Received:");
   while(serial.readBytes(&data, 1) > 0) {

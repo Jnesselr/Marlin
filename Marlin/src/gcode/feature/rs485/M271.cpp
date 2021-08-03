@@ -41,7 +41,7 @@ void GcodeSuite::M271() {
 
   rs485Bus.send();
 
-  //delay(timeout);
+  delay(timeout);
 
   int result = rs485Bus.receive();
   if(result == -1) {
