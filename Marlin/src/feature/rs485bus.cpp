@@ -2,14 +2,14 @@
 
 #include "rs485bus.h"
 
+#if ENABLED(RS485_ENABLE)
+
 RS485Bus rs485Bus(
   RS485_RX_PIN,
   RS485_RX_ENABLE_PIN,
   RS485_TX_PIN,
   RS485_TX_ENABLE_PIN
 );
-
-#if ENABLED(RS485_ENABLE)
 
 RS485Bus::RS485Bus(uint16_t rxPin, uint16_t rxEnablePin, uint16_t txPin, uint16_t txEnablePin)
   : serial(rxPin, txPin), rx_enable_pin(rxEnablePin), tx_enable_pin(txEnablePin) {
@@ -57,28 +57,29 @@ int RS485Bus::send() {
   return ret;
 }
 
-int RS485Bus::receive() {
+void RS485Bus::receive() {
   unsigned char data;
-  //if(! serial.available()) {
-  //  return -1;
-  //}
 
-  SERIAL_ECHO("Received ");
-  SERIAL_ECHO(serial.available());
-  SERIAL_ECHO(" bytes");
-  SERIAL_ECHOLN("");
+  SERIAL_ECHO("rs485-reply: ");
 
-  SERIAL_ECHOLNPGM("Received:");
+  if(! serial.available()) {
+    SERIAL_ECHOLN("TIMEOUT");
+    return;
+  }
+
+  // SERIAL_ECHO("Received ");
+  // SERIAL_ECHO(serial.available());
+  // SERIAL_ECHO(" bytes");
+  // SERIAL_ECHOLN("");
+  
+
+  // SERIAL_ECHOLNPGM("Received:");
   while(serial.readBytes(&data, 1) > 0) {
-    SERIAL_ECHO((data < 0x10) ? " 0x0" : " 0x");
+    SERIAL_ECHO((data < 0x10) ? "0" : "");
 
     SERIAL_PRINT(data, PrintBase::Hex);
   }
-  SERIAL_ECHOLN("");
-  //while(serial.available()) {
-  //  SERIAL_PRINT(serial.read(), PrintBase::Hex);
-  //}
-  return 0;
+  SERIAL_EOL();
 }
 
 #endif

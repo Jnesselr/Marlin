@@ -43,12 +43,7 @@ void GcodeSuite::M271() {
 
   delay(timeout);
 
-  int result = rs485Bus.receive();
-  if(result == -1) {
-    SERIAL_ECHOLNPGM("Didn't receieve anything");
-  } else {
-    SERIAL_ECHOLNPGM("We got something!");
-  }
+  rs485Bus.receive();
 
   // Once we do that, we can figure out timeouts and everything
 }

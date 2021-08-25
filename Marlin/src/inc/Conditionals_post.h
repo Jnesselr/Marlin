@@ -2444,11 +2444,12 @@
 //
 
 // Flag the indexed hardware serial ports in use
-#define CONF_SERIAL_IS(N) (  (defined(SERIAL_PORT)      && SERIAL_PORT == N) \
-                          || (defined(SERIAL_PORT_2)    && SERIAL_PORT_2 == N) \
-                          || (defined(SERIAL_PORT_3)    && SERIAL_PORT_3 == N) \
-                          || (defined(MMU2_SERIAL_PORT) && MMU2_SERIAL_PORT == N) \
-                          || (defined(LCD_SERIAL_PORT)  && LCD_SERIAL_PORT == N) )
+#define CONF_SERIAL_IS(N) (  (defined(SERIAL_PORT)       && SERIAL_PORT == N) \
+                          || (defined(SERIAL_PORT_2)     && SERIAL_PORT_2 == N) \
+                          || (defined(SERIAL_PORT_3)     && SERIAL_PORT_3 == N) \
+                          || (defined(MMU2_SERIAL_PORT)  && MMU2_SERIAL_PORT == N) \
+                          || (defined(LCD_SERIAL_PORT)   && LCD_SERIAL_PORT == N) \
+                          || (defined(RS485_SERIAL_PORT) && RS485_SERIAL_PORT == N) )
 
 // Flag the named hardware serial ports in use
 #define TMC_UART_IS(A,N) (defined(A##_HARDWARE_SERIAL) && (CAT(HW_,A##_HARDWARE_SERIAL) == HW_Serial##N || CAT(HW_,A##_HARDWARE_SERIAL) == HW_MSerial##N))

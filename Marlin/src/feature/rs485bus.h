@@ -1,5 +1,7 @@
 #pragma once
 
+#if ENABLED(RS485_ENABLE)
+
 #include <stdint.h>
 
 #include "SoftwareSerial.h"
@@ -12,7 +14,7 @@ class RS485Bus {
     void reset();
     int push(unsigned char byte);
     int send();
-    int receive();
+    void receive();
 
   private:
     SoftwareSerial serial;
@@ -25,6 +27,8 @@ class RS485Bus {
 };
 
 extern RS485Bus rs485Bus;
+
+#endif
 
 /*
 
