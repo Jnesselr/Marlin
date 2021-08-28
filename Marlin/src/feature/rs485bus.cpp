@@ -1,25 +1,36 @@
 #include "../inc/MarlinConfig.h"
-
 #include "rs485bus.h"
 
 #if ENABLED(RS485_ENABLE)
 
+#define BAUD_RATE 9600
+
 RS485Bus rs485Bus(
-  RS485_RX_PIN,
+  &MSerial1,
+  //RS485_RX_PIN,
   RS485_RX_ENABLE_PIN,
-  RS485_TX_PIN,
+  //RS485_TX_PIN,
   RS485_TX_ENABLE_PIN
 );
 
-RS485Bus::RS485Bus(uint16_t rxPin, uint16_t rxEnablePin, uint16_t txPin, uint16_t txEnablePin)
-  : serial(rxPin, txPin), rx_enable_pin(rxEnablePin), tx_enable_pin(txEnablePin) {
+RS485Bus::RS485Bus(HardwareSerial *serial, uint16_t rxEnablePin, uint16_t txEnablePin)
+  : hwSerial(serial), swSerial(NULL), serial(serial),  rx_enable_pin(rxEnablePin), tx_enable_pin(txEnablePin) {
+}
+
+RS485Bus::RS485Bus(SoftwareSerial *serial, uint16_t rxEnablePin, uint16_t txEnablePin)
+  : hwSerial(NULL), swSerial(serial), serial(serial), rx_enable_pin(rxEnablePin), tx_enable_pin(txEnablePin) {
 }
 
 void RS485Bus::init() {
   _SET_OUTPUT(rx_enable_pin);
   _SET_OUTPUT(tx_enable_pin);
 
-  serial.begin(9600);
+  if (hwSerial != NULL) {
+    hwSerial->begin(BAUD_RATE);
+  } else if (swSerial != NULL) {
+    swSerial->begin(BAUD_RATE);
+  }
+
   reset();
 }
 
@@ -46,8 +57,8 @@ int RS485Bus::send() {
   WRITE(rx_enable_pin, HIGH);
   delay(5);
 
-  size_t ret = serial.write(buffer, buffer_s);
-  serial.flush();
+  size_t ret = serial->write(buffer, buffer_s);
+  serial->flush();
   delay(5);
 
   WRITE(tx_enable_pin, LOW);
@@ -62,7 +73,7 @@ void RS485Bus::receive() {
 
   SERIAL_ECHO("rs485-reply: ");
 
-  if(! serial.available()) {
+  if(! serial->available()) {
     SERIAL_ECHOLN("TIMEOUT");
     return;
   }
@@ -74,7 +85,7 @@ void RS485Bus::receive() {
   
 
   // SERIAL_ECHOLNPGM("Received:");
-  while(serial.readBytes(&data, 1) > 0) {
+  while(serial->readBytes(&data, 1) > 0) {
     SERIAL_ECHO((data < 0x10) ? "0" : "");
 
     SERIAL_PRINT(data, PrintBase::Hex);
