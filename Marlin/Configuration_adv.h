@@ -4475,3 +4475,8 @@
 
 // Report uncleaned reset reason from register r2 instead of MCUSR. Supported by Optiboot on AVR.
 //#define OPTIBOOT_RESET_REASON
+
+/**
+ * RS485 Hardware serial port definition
+ */
+// #define RS485_SERIAL_PORT -1
