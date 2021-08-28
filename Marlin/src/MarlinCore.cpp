@@ -252,7 +252,7 @@
 #endif
 
 #if ENABLED(RS485_ENABLE)
-  #include "feature/rs485bus.h"
+  #include "feature/rs485bus.hpp"
 #endif
 
 PGMSTR(M112_KILL_STR, "M112 Shutdown");
