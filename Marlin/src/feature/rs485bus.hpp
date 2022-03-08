@@ -7,7 +7,7 @@
 #include "SoftwareSerial.h"
 #include "Stream.h"
 
-#define BAUD_RATE 9600
+#define RS485_BAUD_RATE 57600
 
 template<class T>
 class RS485Bus {
@@ -19,6 +19,7 @@ class RS485Bus {
     int push(unsigned char byte);
     int send();
     void receive();
+    int available();
 
   private:
     T *serial;
@@ -40,7 +41,7 @@ void RS485Bus<T>::init() {
   _SET_OUTPUT(rx_enable_pin);
   _SET_OUTPUT(tx_enable_pin);
 
-  serial->begin(BAUD_RATE);
+  serial->begin(RS485_BAUD_RATE);
 
   reset();
 }
@@ -108,6 +109,11 @@ void RS485Bus<T>::receive() {
   SERIAL_EOL();
 }
 
+template<class T>
+int RS485Bus<T>::available() {
+  return serial->available();
+}
+
 #ifdef RS485_SERIAL_PORT
   static RS485Bus<HardwareSerial> rs485Bus(
     &MSerial1,
@@ -124,13 +130,3 @@ void RS485Bus<T>::receive() {
 #endif
 
 #endif
-
-/*
-
-I think the gcode command might have to deal with timeout stuff so it can call the idle method.
-
-It'd be even better if I could even send the command and get a response back after X time, but the biggest problem I think is that marlin will respond with an "ok" for the command so we really do gotta make the delay in this command. And it can't be in the rs485 bus stuff because we can't call idle.
-
-Point is, we gotta think through this API a bit. It can't just be a perfect copy of twibus.
-
-*/

@@ -2,6 +2,7 @@
 
 #if ENABLED(RS485_ENABLE)
 
+#include "../../../MarlinCore.h"
 #include "../../gcode.h"
 
 #include "../../../feature/rs485bus.hpp"
@@ -41,11 +42,19 @@ void GcodeSuite::M271() {
 
   rs485Bus.send();
 
-  delay(timeout);
+  long timeoutMillis = millis() + timeout;
+  uint16_t bytesAvailable = 0;
+  while(! ELAPSED(millis(), timeoutMillis)) {
+    uint16_t newBytesAvailable = rs485Bus.available();
+    if(newBytesAvailable > 0 && newBytesAvailable == bytesAvailable) {
+      break; // Exit early if we have a constant number of bytes (> 0) that remains consistent after two loops.
+    }
+    delay(5);
+    idle();
+    bytesAvailable = newBytesAvailable;
+  }
 
   rs485Bus.receive();
-
-  // Once we do that, we can figure out timeouts and everything
 }
 
 #endif
