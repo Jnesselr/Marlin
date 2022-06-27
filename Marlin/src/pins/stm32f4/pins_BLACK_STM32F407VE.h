@@ -159,7 +159,7 @@
 //
 // RS485 support
 //
-#define RS485_ENABLED
+#define RS485_ENABLE
 #define RS485_RX_PIN                PD13
 #define RS485_RX_ENABLE_PIN         PD12
 #define RS485_TX_PIN                PD10

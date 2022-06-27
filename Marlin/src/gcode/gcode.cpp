@@ -798,6 +798,10 @@ void GcodeSuite::process_parsed_command(const bool no_ok/*=false*/) {
         case 261: M261(); break;                                  // M261: Request data from an i2c slave
       #endif
 
+      #if ENABLED(RS485_ENABLE)
+        case 271: M271(); break;
+      #endif
+
       #if ENABLED(PREVENT_COLD_EXTRUSION)
         case 302: M302(); break;                                  // M302: Allow cold extrudes (set the minimum extrude temperature)
       #endif

@@ -206,6 +206,7 @@
  * M256 - Set LCD brightness: "M256 B<brightness>" (0-255). (Requires an LCD with brightness control)
  * M260 - i2c Send Data (Requires EXPERIMENTAL_I2CBUS)
  * M261 - i2c Request Data (Requires EXPERIMENTAL_I2CBUS)
+ * M271 - RS485 Request Data
  * M280 - Set servo position absolute: "M280 P<index> S<angle|µs>". (Requires servos)
  * M281 - Set servo min|max position: "M281 P<index> L<min> U<max>". (Requires EDITABLE_SERVO_ANGLES)
  * M282 - Detach servo: "M282 P<index>". (Requires SERVO_DETACH_GCODE)
@@ -899,6 +900,10 @@ private:
   #if ENABLED(EXPERIMENTAL_I2CBUS)
     static void M260();
     static void M261();
+  #endif
+
+  #if ENABLED(RS485_ENABLE)
+    static void M271();
   #endif
 
   #if HAS_SERVOS
