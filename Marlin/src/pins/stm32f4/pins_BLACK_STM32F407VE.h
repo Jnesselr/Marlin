@@ -119,16 +119,16 @@
 //#define SD_DETECT_PIN                     PC5
 //#define SD_DETECT_PIN                     PA8   // SDIO SD_DETECT_PIN, external SDIO card reader only
 
-//#define BEEPER_PIN                          PD10
-//#define LCD_PINS_RS                         PE15
-//#define LCD_PINS_ENABLE                     PD8
-//#define LCD_PINS_D4                         PE10
-//#define LCD_PINS_D5                         PE12
-//#define LCD_PINS_D6                         PD1
-//#define LCD_PINS_D7                         PE8
-//#define BTN_ENC                             PD9
-//#define BTN_EN1                             PD4
-//#define BTN_EN2                             PD13
+#define BEEPER_PIN                          PD10
+#define LCD_PINS_RS                         PE15
+#define LCD_PINS_ENABLE                     PD8
+#define LCD_PINS_D4                         PE10
+#define LCD_PINS_D5                         PE12
+#define LCD_PINS_D6                         PD1
+#define LCD_PINS_D7                         PE8
+#define BTN_ENC                             PD9
+#define BTN_EN1                             PD4
+#define BTN_EN2                             PD13
 
 #define DOGLCD_CS                    LCD_PINS_D5
 #define DOGLCD_A0                    LCD_PINS_D6
@@ -154,14 +154,3 @@
     #define SD_MOSI_PIN                     PD2
   #endif
 #endif
-
-
-//
-// RS485 support
-//
-#define RS485_ENABLE
-#define RS485_RX_PIN                PD13
-#define RS485_RX_ENABLE_PIN         PD12
-#define RS485_TX_PIN                PD10
-#define RS485_TX_ENABLE_PIN         PD11
-#define RS485_VERIFY_READ_BACK
