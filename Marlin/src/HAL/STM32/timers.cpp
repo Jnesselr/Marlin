@@ -195,7 +195,10 @@ bool HAL_timer_interrupt_enabled(const uint8_t timer_num) {
 }
 
 void SetTimerInterruptPriorities() {
-  TERN_(HAS_TMC_SW_SERIAL, SoftwareSerial::setInterruptPriority(SWSERIAL_TIMER_IRQ_PRIO, 0));
+#if HAS_TMC_SW_SERIAL
+  SoftwareSerial::setInterruptPriority(SWSERIAL_TIMER_IRQ_PRIO, 0);
+#endif 
+  //TERN_(HAS_TMC_SW_SERIAL, SoftwareSerial::setInterruptPriority(SWSERIAL_TIMER_IRQ_PRIO, 0));
   TERN_(HAS_SERVOS, libServo::setInterruptPriority(SERVO_TIMER_IRQ_PRIO, 0));
 }
 
@@ -285,14 +288,17 @@ static constexpr int get_timer_num_from_base_address(uintptr_t base_address) {
 }
 
 // The platform's SoftwareSerial.cpp will use the first timer from stm32_timer_map.
-#if HAS_TMC_SW_SERIAL && !defined(TIMER_SERIAL)
+#if (HAS_TMC_SW_SERIAL) && !defined(TIMER_SERIAL)
   #define  TIMER_SERIAL (stm32_timer_map[0].base_address)
 #endif
 
 // constexpr doesn't like using the base address pointers that timers evaluate to.
 // We can get away with casting them to uintptr_t, if we do so inside an array.
 // GCC will not currently do it directly to a uintptr_t.
-IF_ENABLED(HAS_TMC_SW_SERIAL, static constexpr uintptr_t timer_serial[] = {uintptr_t(TIMER_SERIAL)});
+//IF_ENABLED(HAS_TMC_SW_SERIAL , static constexpr uintptr_t timer_serial[] = {uintptr_t(TIMER_SERIAL)});
+#if HAS_TMC_SW_SERIAL
+  static constexpr uintptr_t timer_serial[] = {uintptr_t(TIMER_SERIAL)};
+#endif
 IF_ENABLED(SPEAKER,           static constexpr uintptr_t timer_tone[]   = {uintptr_t(TIMER_TONE)});
 IF_ENABLED(HAS_SERVOS,        static constexpr uintptr_t timer_servo[]  = {uintptr_t(TIMER_SERVO)});
 

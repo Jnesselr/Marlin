@@ -246,8 +246,13 @@
   #include "feature/power.h"
 #endif
 
+
 #if ENABLED(EASYTHREED_UI)
   #include "feature/easythreed_ui.h"
+#endif
+
+#if ENABLED(RS485_ENABLE)
+  #include "feature/rs485bus.h"
 #endif
 
 PGMSTR(M112_KILL_STR, "M112 Shutdown");
@@ -1266,6 +1271,10 @@ void setup() {
 
   #if HAS_STEPPER_RESET
     SETUP_RUN(disableStepperDrivers());
+  #endif
+
+  #if ENABLED(RS485_ENABLE)
+    rs485Bus.init();
   #endif
 
   SETUP_RUN(hal.init_board());

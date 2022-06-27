@@ -12,11 +12,13 @@ RS485Bus rs485Bus(
 #if ENABLED(RS485_ENABLE)
 
 RS485Bus::RS485Bus(uint16_t rxPin, uint16_t rxEnablePin, uint16_t txPin, uint16_t txEnablePin)
-  : serial(rxPin, txPin) {
-    // TODO Turn this into a define
-    MSerial5.begin(9600);
-    reset();
+  : serial(rxPin, txPin), rx_enable_pin(rxEnablePin), tx_enable_pin(txEnablePin) {
     //WRITE(RS485_RX_ENABLE_PIN, HIGH);
+}
+
+void RS485Bus::init() {
+  serial.begin(9600);
+  reset();
 }
 
 void RS485Bus::reset() {

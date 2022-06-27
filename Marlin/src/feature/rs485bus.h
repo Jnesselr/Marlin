@@ -8,6 +8,7 @@ class RS485Bus {
   public:
     RS485Bus(uint16_t rxPin, uint16_t rxEnablePin, uint16_t txPin, uint16_t txEnablePin);
 
+    void init();
     void reset();
     int push(unsigned char byte);
     int send();
@@ -18,6 +19,9 @@ class RS485Bus {
     uint8_t buffer_s = 0;
 
     uint8_t buffer[RS485BUS_BUFFER_SIZE];
+
+    uint16_t rx_enable_pin;
+    uint16_t tx_enable_pin;
 };
 
 extern RS485Bus rs485Bus;
