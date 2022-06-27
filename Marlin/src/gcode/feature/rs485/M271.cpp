@@ -5,7 +5,7 @@
 #include "../../../MarlinCore.h"
 #include "../../gcode.h"
 
-#include "../../../feature/rs485bus.hpp"
+#include "../../../feature/rs485bus.h"
 
 uint16_t timeout = 100;
 

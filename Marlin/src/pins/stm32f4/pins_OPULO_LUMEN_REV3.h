@@ -139,9 +139,7 @@ By default, the extra stepper motor configuration is:
 #define RS485_TX_ENABLE_PIN         PD11
 #define RS485_RX_ENABLE_PIN         PD12
 // Hardware serial port is defined in Configuration.h
-// Software Serial TX/RX pins are ignored if RS485_SERIAL_PORT is defined
-#define RS485_TX_PIN                PD10
-#define RS485_RX_PIN                PD13
+// #define RS485_SERIAL_PORT 1
 #define RS485_VERIFY_READ_BACK
 
 /*
